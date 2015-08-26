@@ -130,9 +130,9 @@ function _modify_image {
             cp $f mnt/img_root/$f || die "Could not copy $f"
         fi
     done
-    echo "localhost" > mnt/img_root/etc/hostname || die "Could not set hostname to localhost"
-    echo "unset old_host_name # this will make the system always set the hostname from DHCP" \
-        > mnt/img_root/etc/dhcp/dhclient-enter-hooks.d/unset_old_hostname || die "Could not apply fix http://blog.schlomo.schapiro.org/2013/11/setting-hostname-from-dhcp-in-debian.html"
+    #echo "localhost" > mnt/img_root/etc/hostname || die "Could not set hostname to localhost"
+    #echo "unset old_host_name # this will make the system always set the hostname from DHCP" \
+    #    > mnt/img_root/etc/dhcp/dhclient-enter-hooks.d/unset_old_hostname || die "Could not apply fix http://blog.schlomo.schapiro.org/2013/11/setting-hostname-from-dhcp-in-debian.html"
     if [[ "${ADD_REPOS:-}" ]] ; then
         for repo in "${ADD_REPOS[@]}" ; do
             echo "$repo" 
