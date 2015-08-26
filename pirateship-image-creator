@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/bash
 # Download Raspbian Image, remove first-boot stuff, add repos and install packages.
 #
 # Open interactive Shell in chroot or write result to SD Card
@@ -6,7 +6,7 @@
 # License: GNU General Public License, see http://www.gnu.org/copyleft/gpl.html for full text
 #
 # The following variables and arrays customize the behavior. To change them simply create a configuration
-# file `rpi-image-creator.config` which overrides them.
+# file `pirateship-image-creator.config` which overrides them.
 #
 # Add at least the following lines to override the internal ImmobilienScout24 configuration:
 # INSTALL_PACKAGES=()
@@ -41,8 +41,8 @@ CUSTOM_COMMAND=""
 
 ############ End of User Cusomization
 
-if [[ -r ./rpi-image-creator.config ]] ; then
-    source ./rpi-image-creator.config
+if [[ -r ./pirateship-image-creator.config ]] ; then
+    source ./pirateship-image-creator.config
 fi
 
 function die {
@@ -136,7 +136,7 @@ function _modify_image {
     if [[ "${ADD_REPOS:-}" ]] ; then
         for repo in "${ADD_REPOS[@]}" ; do
             echo "$repo" 
-        done > mnt/img_root/etc/apt/sources.list.d/rpi-image-creator.list || die "Could not add repos ${ADD_REPOS[@]}"
+        done > mnt/img_root/etc/apt/sources.list.d/pirateship-image-creator.list || die "Could not add repos ${ADD_REPOS[@]}"
     fi
     if [[ ${ADD_REPO_KEYS:-} ]] ; then
         gpg --no-permission-warning --no-default-keyring --keyring /etc/apt/trusted.gpg --export ${ADD_REPO_KEYS[@]} | gpg --no-permission-warning --no-default-keyring --keyring mnt/img_root/etc/apt/trusted.gpg --trustdb-name mnt/img_root/etc/apt/trustdb.gpg --import - || die "Could not import GPG keys ${ADD_REPO_KEYS[@]} for apt"
