@@ -17,6 +17,10 @@
 RASPBIAN_URL=https://downloads.raspberrypi.org/raspbian/images/raspbian-2015-05-07/2015-05-05-raspbian-wheezy.zip
 RASPBIAN_SHA1=cb799af077930ff7cbcfaa251b4c6e25b11483de
 
+# Setting some options to default
+SETUP_SSHKEYS=false
+SETUP_NOPASSWD=false
+
 # List of packages to install
 INSTALL_PACKAGES=(
     vim
@@ -141,15 +145,19 @@ function _modify_image {
     if [[ ${ADD_REPO_KEYS:-} ]] ; then
         gpg --no-permission-warning --no-default-keyring --keyring /etc/apt/trusted.gpg --export ${ADD_REPO_KEYS[@]} | gpg --no-permission-warning --no-default-keyring --keyring mnt/img_root/etc/apt/trusted.gpg --trustdb-name mnt/img_root/etc/apt/trustdb.gpg --import - || die "Could not import GPG keys ${ADD_REPO_KEYS[@]} for apt"
     fi
-    #IFS=: read a b c d e user_home g < <(getent passwd ${SUDO_USER:-$USER})
-    #mkdir -p mnt/img_root/root/.ssh || die "Could not mkdir mnt/img_root/root/.ssh"
-    #cat $user_home/.ssh/*.pub <<<"" >mnt/img_root/root/.ssh/authorized_keys || :
-    #chmod 0600 mnt/img_root/root/.ssh/authorized_keys || die "Could not chmod 0600 mnt/img_root/root/.ssh/authorized_keys"
-    #if (( $(wc -l <mnt/img_root/root/.ssh/authorized_keys) > 0 )) ; then
-    #    echo "Installed SSH keys from $user_home, disabling password access"
-    #    sed -i -e 's/.*PasswordAuthentication.*/PasswordAuthentication no/i' mnt/img_root/etc/ssh/sshd_config || die "Could not disable password auth in mnt/img_root/etc/ssh/sshd_config"
-    #fi
-    #sed -i -e 's/.*disable_overscan=.*/disable_overscan=1/i' mnt/img_root/boot/config.txt || die "Could not disable overscan in mnt/img_root/boot/config.txt"
+    if [[ "$SETUP_SSHKEYS" == true ]] ; then
+        IFS=: read a b c d e user_home g < <(getent passwd ${SUDO_USER:-$USER})
+        mkdir -p mnt/img_root/root/.ssh || die "Could not mkdir mnt/img_root/root/.ssh"
+        cat $user_home/.ssh/*.pub <<<"" >mnt/img_root/root/.ssh/authorized_keys || :
+        chmod 0600 mnt/img_root/root/.ssh/authorized_keys || die "Could not chmod 0600 mnt/img_root/root/.ssh/authorized_keys"
+        if (( $(wc -l <mnt/img_root/root/.ssh/authorized_keys) > 0 )) ; then
+            echo "Installed SSH keys from $user_home, disabling password access"
+            sed -i -e 's/.*PasswordAuthentication.*/PasswordAuthentication no/i' mnt/img_root/etc/ssh/sshd_config || die "Could not disable password auth in mnt/img_root/etc/ssh/sshd_config"
+        fi
+        if [[ "$SETUP_NOPASSWD" == true ]] ; then
+            sed -i -e 's/.*disable_overscan=.*/disable_overscan=1/i' mnt/img_root/boot/config.txt || die "Could not disable overscan in mnt/img_root/boot/config.txt"
+        fi
+    fi
 
     PURGE_PACKAGES=( $(
         for package in "${PURGE_PACKAGES[@]}" ; do
