@@ -20,6 +20,8 @@ RASPBIAN_SHA1=cb799af077930ff7cbcfaa251b4c6e25b11483de
 # Setting some options to default
 SETUP_SSHKEYS=false
 SETUP_NOPASSWD=false
+SETUP_HOSTNAME="raspberrypi"
+SETUP_HOSTNAMEBYDHCP=false
 
 # List of packages to install
 INSTALL_PACKAGES=(
@@ -134,9 +136,13 @@ function _modify_image {
             cp $f mnt/img_root/$f || die "Could not copy $f"
         fi
     done
-    #echo "localhost" > mnt/img_root/etc/hostname || die "Could not set hostname to localhost"
-    #echo "unset old_host_name # this will make the system always set the hostname from DHCP" \
-    #    > mnt/img_root/etc/dhcp/dhclient-enter-hooks.d/unset_old_hostname || die "Could not apply fix http://blog.schlomo.schapiro.org/2013/11/setting-hostname-from-dhcp-in-debian.html"
+    if [[ "$SETUP_SSHKEYS" == "raspberrypi" ]] ; then
+        echo "$SETUP_SSHKEYS" > mnt/img_root/etc/hostname || die "Could not set hostname to $SETUP_SSHKEYS"
+    fi
+    if [[ "$SETUP_HOSTNAMEBYDHCP" == true ]] ; then
+        echo "unset old_host_name # this will make the system always set the hostname from DHCP" \
+        > mnt/img_root/etc/dhcp/dhclient-enter-hooks.d/unset_old_hostname || die "Could not apply fix http://blog.schlomo.schapiro.org/2013/11/setting-hostname-from-dhcp-in-debian.html"
+    fi
     if [[ "${ADD_REPOS:-}" ]] ; then
         for repo in "${ADD_REPOS[@]}" ; do
             echo "$repo" 
