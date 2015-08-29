@@ -30,7 +30,10 @@ INSTALL_PACKAGES=(
 
 # List of packages to remove
 PURGE_PACKAGES=(
-    wolfram-engine
+    wolfram-engine 
+    libx11-.* lxde-.* fonts-.* desktop-* gnome-.*
+    raspberrypi-artwork penguinspuzzle
+    xkb-data omxplayer sgml-base xml-core 
 )
 
 # List of extra APT repositories
