@@ -34,8 +34,8 @@ PURGE_PACKAGES=(
     libx11-.* lxde-.* fonts-.* desktop-* gnome-.*
     raspberrypi-artwork penguinspuzzle
     xkb-data omxplayer sgml-base xml-core
-    libsysfs2 libident libboost-iostreams1..*
-    libssh-4 libaudit0 libmtdev1
+    libsysfs2 libident libssh-4 libaudit0 libmtdev1
+    libboost-iostreams1.46.1 libboost-iostreams1.50.0 libboost-iostreams1.48.0
     libpciaccess0 libxcb-xfixes0 libwayland0 libsigc++-1.2-5c2
 )
 
