@@ -33,7 +33,10 @@ PURGE_PACKAGES=(
     wolfram-engine 
     libx11-.* lxde-.* fonts-.* desktop-* gnome-.*
     raspberrypi-artwork penguinspuzzle
-    xkb-data omxplayer sgml-base xml-core 
+    xkb-data omxplayer sgml-base xml-core
+    libsysfs2 libident libboost-iostreams1..*
+    libssh-4 libaudit0 libmtdev1
+    libpciaccess0 libxcb-xfixes0 libwayland0 libsigc++-1.2-5c2
 )
 
 # List of extra APT repositories
