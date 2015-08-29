@@ -25,7 +25,7 @@ SETUP_HOSTNAMEBYDHCP=false
 
 # List of packages to install
 INSTALL_PACKAGES=(
-    vim
+    vim deborphan
 )
 
 # List of packages to remove
