@@ -25,7 +25,7 @@ SETUP_HOSTNAMEBYDHCP=false
 
 # List of packages to install
 INSTALL_PACKAGES=(
-    vim deborphan
+    avahi-daemon vim lshw iotop screen #essentials
 )
 
 # List of packages to remove
