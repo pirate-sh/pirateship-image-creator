@@ -51,7 +51,15 @@ ADD_REPO_KEYS=(
 # Extra command to run upon completion. This is run within a chroot environment.
 # Example: CUSTOM_COMMAND="curl http://some.domain/script.sh | bash -i ; rm -f /some/file"
 CUSTOM_COMMAND="\
-    update-alternatives --set editor /usr/bin/vim.basic;\
+    update-alternatives --set editor /usr/bin/vim.basic;
+    mkdir /root/checknode;
+    cd /root/checknode;
+    wget http://node-arm.herokuapp.com/node_latest_armhf.deb;
+    mv node_latest_armhf.deb node_0.12.6_armhf.deb;
+    wget https://deb.nodesource.com/node_0.12/pool/main/n/nodejs/nodejs_0.12.7-1nodesource1~wheezy1_armhf.deb;
+    ln -s node_0.12.6_armhf.deb node-rpi1.deb;
+    ln -s nodejs_0.12.7-1nodesource1~wheezy1_armhf.deb node-rpi2.deb;
+    dpkg -i node-rpi1.deb;
 "
 
 ############ End of User Cusomization
