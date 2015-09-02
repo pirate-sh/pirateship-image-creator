@@ -60,6 +60,26 @@ CUSTOM_COMMAND="\
     ln -s node_0.12.6_armhf.deb node-rpi1.deb;
     ln -s nodejs_0.12.7-1nodesource1~wheezy1_armhf.deb node-rpi2.deb;
     dpkg -i node-rpi1.deb;
+    cd /usr/lib/;
+    ln -s /usr/local/lib/node_modules;
+    cd /root/checknode;
+    cat > toggle.sh << EOF
+#!/bin/sh
+
+rpi=\\\$(cat /proc/cpuinfo | grep Revision | sed 's/.* //g' | tr -d '\n';)
+if [[ \\\$rpi == 'a11041' ]] || [[ \\\$rpi == 'a21041' ]]; then
+  if [[ \\\$(dpkg -l|grep node|awk '{print \\\$2}') == 'node' ]]; then
+    aptitude purge -y node
+    dpkg -i /root/checknode/node-rpi2.deb
+  fi
+else
+  if [[ \\\$(dpkg -l|grep node|awk '{print \\\$2}') == 'nodej' ]]; then
+    aptitude purge -y nodejs
+    dpkg -i /root/checknode/node-rpi1.deb
+  fi
+fi
+EOF
+chmod 755 toggle.sh;
 "
 
 ############ End of User Cusomization
