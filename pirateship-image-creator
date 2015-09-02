@@ -26,6 +26,7 @@ SETUP_HOSTNAMEBYDHCP=false
 # List of packages to install
 INSTALL_PACKAGES=(
     avahi-daemon vim lshw iotop screen #essentials
+    build-essential rlwrap python-dev python-rpi.gpio #install node  http://nodered.org/docs/hardware/raspberrypi.html
 )
 
 # List of packages to remove
