@@ -82,6 +82,10 @@ EOF
     npm config set unsafe-perm true;
     npm install -g pirate-sh;
     npm config set unsafe-perm false;
+    dphys-swapfile swapoff;
+    dphys-swapfile uninstall;
+    update-rc.d dphys-swapfile disable;
+    apt-get -qq purge dphys-swapfile;
 "
 
 ############ End of User Cusomization
