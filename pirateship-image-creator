@@ -27,6 +27,7 @@ SETUP_HOSTNAMEBYDHCP=false
 INSTALL_PACKAGES=(
     avahi-daemon vim lshw iotop screen #essentials
     build-essential rlwrap python-dev python-rpi.gpio #install node  http://nodered.org/docs/hardware/raspberrypi.html
+    resolvconf #for https://www.npmjs.com/package/pirate-sh
 )
 
 # List of packages to remove
