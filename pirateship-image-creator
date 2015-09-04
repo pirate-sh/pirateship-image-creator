@@ -115,6 +115,14 @@ EOF
     dphys-swapfile uninstall;
     update-rc.d dphys-swapfile disable;
     apt-get -qq purge dphys-swapfile;
+    mkdir -p /root/bluez;
+    cd /root/bluez;
+    wget https://www.kernel.org/pub/linux/bluetooth/bluez-5.33.tar.xz;
+    tar xvf bluez-5.33.tar.xz;
+    cd bluez-5.33;
+    ./configure --disable-systemd;
+    make;
+    make install;
 "
 
 ############ End of User Cusomization
